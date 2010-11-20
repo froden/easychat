@@ -10,5 +10,5 @@ object Application extends Controller {
 }
 
 object Messages extends Controller {
-	def index = "Her kommer meldingene"
+	def index = Template
 }
