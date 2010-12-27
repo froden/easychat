@@ -14,7 +14,9 @@
 	this.post('#/messages', function(context) {
 		var message = context.params['message'];
 		context.log(message);
-		context.render('public/templates/message.template', {message: {body: message}}).appendTo($('#messages'));
+		var text = context.render('public/templates/message.template', {message: {body: message}}).then(function(html) {
+			$(html).hide().fadeIn('slow').appendTo('#messages');
+		});
 	});
 
   });
