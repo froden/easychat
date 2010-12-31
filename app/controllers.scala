@@ -16,9 +16,7 @@ object Application extends Controller {
 object Messages extends Controller {
 	def index = {
 		val messages = Message.findAll()
-		val messageArray = new Array[Message](messages.size)
-		messages.copyToArray(messageArray)
-		Json(messageArray)
+		Json(messages.toArray)
 	}
 	
 	def create(body: String) = {
