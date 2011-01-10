@@ -14,8 +14,8 @@ object Application extends Controller {
 }
 
 object Messages extends Controller {
-	def index = {
-		val messages = Message.findAll()
+	def index(last: Long) = {
+		val messages = Message.findAllAfter(last)
 		Json(messages.toArray)
 	}
 	

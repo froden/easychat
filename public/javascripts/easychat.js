@@ -23,7 +23,7 @@
 	
 	this.helper('startPolling', function() {
 		var context = this;
-		context.load('messages', {dataType:'json'}).then(function(messages) {
+		context.load('messages', {data: {last: 0}, dataType:'json'}).then(function(messages) {
 	    	$.each(messages, function(i, message) {
 				context.render('public/templates/message.template', {message: message}).appendTo($('#messages'));
 			});
