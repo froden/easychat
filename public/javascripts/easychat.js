@@ -4,29 +4,42 @@
 	this.use('Template');
 	
     this.get('#/', function(context) {
-		context.startPolling();
+		context.pollMessages();
 	});
 	
 	this.post('#/messages', function(context) {
 		$('#messageform input#message').val("");
 		var message = context.params['message'];
 		context.log(message);
-		var text = context.render('public/templates/message.template', {message: {body: message}}).then(function(html) {
-			$(html).hide().fadeIn('slow').appendTo('#messages');
-		});
-		$.ajax({
-		  type: 'POST',
-		  url: '/messages',
-		  data: message
+		var text = context.render('public/templates/message.template', {message: {body: message, id: 0}}).then(function(html) {
+			var htmlElement = $(html);
+			htmlElement.hide().fadeIn('slow').appendTo('#messages');
+			return htmlElement;
+		}).then(function(htmlElement) {
+			$.ajax({
+			  type: 'POST',
+			  url: '/messages',
+			  data: message,
+			  success: function(msg) {
+				context.log(msg);
+				htmlElement.attr("id", msg.id);
+			  }
+			});
 		});
 	});
 	
-	this.helper('startPolling', function() {
+	this.helper('pollMessages', function() {
 		var context = this;
-		context.load('messages', {data: {last: 0}, dataType:'json'}).then(function(messages) {
+		var last = $('#messages').children().last().attr("id") || 0;
+		context.log("last " + last);
+		context.load('messages', {cache: false, data: {last: last}, dataType:'json'}).then(function(messages) {
 	    	$.each(messages, function(i, message) {
 				context.render('public/templates/message.template', {message: message}).appendTo($('#messages'));
 			});
+		}).then(function(messages) {
+			setTimeout(function() {
+				context.pollMessages();
+			}, 3000);
 		});
 	});
 

@@ -20,6 +20,6 @@ object Messages extends Controller {
 	}
 	
 	def create(body: String) = {
-		new Message(body).save();
+		Json(new Message(body).save())
 	}
 }
