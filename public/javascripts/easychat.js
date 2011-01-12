@@ -11,20 +11,10 @@
 		$('#messageform input#message').val("");
 		var message = context.params['message'];
 		context.log(message);
-		var text = context.render('public/templates/message.template', {message: {body: message, id: 0}}).then(function(html) {
-			var htmlElement = $(html);
-			htmlElement.hide().fadeIn('slow').appendTo('#messages');
-			return htmlElement;
-		}).then(function(htmlElement) {
-			$.ajax({
-			  type: 'POST',
-			  url: '/messages',
-			  data: message,
-			  success: function(msg) {
-				context.log(msg);
-				htmlElement.attr("id", msg.id);
-			  }
-			});
+		$.ajax({
+		  type: 'POST',
+		  url: '/messages',
+		  data: message
 		});
 	});
 	
@@ -39,7 +29,7 @@
 		}).then(function(messages) {
 			setTimeout(function() {
 				context.pollMessages();
-			}, 3000);
+			}, 500);
 		});
 	});
 

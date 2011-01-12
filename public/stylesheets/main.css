@@ -1,0 +1,18 @@
+body {
+	background-color: #aaa;
+}
+
+#main {
+	margin: 10px;
+}
+
+#messages {
+	
+}
+
+#messages p {
+	color: #333;
+	background-color: #ddd;
+	margin: 5px 0px;
+	padding: 5px 3px;
+}
