@@ -2,10 +2,13 @@ package models
 
 import javax.persistence.Entity
 import play.db.jpa._
+import play.data.Validators._
+import java.util.Date
 
 @Entity
-class Message(var body: String) extends Model {
-
+class Message(@Required var body: String) extends Model {
+	@Required
+    var postedAt = new Date()
 }
 
 object Message extends QueryOn[Message] {
